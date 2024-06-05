@@ -1,25 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 
-const App = () => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    document.title = `You clicked ${count} times`;
-
-    return () => {
-      // cleanup code if needed
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
     };
-  }, [count]);
+  }
 
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
-  );
-};
+  componentDidMount() {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      document.title = `You clicked ${this.state.count} times`;
+    }
+  }
+
+  componentWillUnmount() {
+    // cleanup code if needed
+  }
+
+  handleButtonClick = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <p>You clicked {this.state.count} times</p>
+        <button onClick={this.handleButtonClick}>
+          Click me
+        </button>
+      </div>
+    );
+  }
+}
 
 export default App;
 
